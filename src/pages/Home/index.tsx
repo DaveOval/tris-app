@@ -20,7 +20,7 @@ const HomeContainer = styled.main`
     font-weight: 600;
     letter-spacing: .007em;
     box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
-    background-image: url("./public/sunflowers.webp");
+    background-image: url("./sunflowers.webp");
 `;
 
 const TrisImg = styled.img`
@@ -50,7 +50,7 @@ export const Home = () => {
     return (
         <HomeContainer>
             <h1>Bienvenido a TrisMood</h1>
-            <TrisImg src="./public/tris_status/normal.svg" />
+            <TrisImg src="./tris_status/normal.svg" />
             <Btn to="/status" >Continuar</Btn>
         </HomeContainer>
     )
