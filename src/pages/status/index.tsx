@@ -84,6 +84,8 @@ const Status = () => {
 
     const [status, setStatus] = useState("normal");
 
+    setStatus("angry");
+
 
     return (
         <StatusContainer>
