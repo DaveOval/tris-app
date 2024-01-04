@@ -54,6 +54,8 @@ const Body = styled.div`
         font-size: 1.5rem;
         font-weight: 600;
         margin-bottom: 2rem;
+        text-align: center;
+        text-wrap: balance;
     }
     div {
         display: flex;
