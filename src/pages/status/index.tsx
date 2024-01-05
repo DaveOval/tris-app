@@ -176,7 +176,11 @@ const Status = () => {
 
     async function fetChData() {
         try {
-            let { data: status , error } = await supabase.from('status').select('*')
+            let { data: status , error } = await supabase
+                .from('status')
+                .select('*')
+                .order("created_at", { ascending: false })
+                .limit(1);
             if ( error ) {
                 console.error("Error fetching data: ", error )
             } else {
