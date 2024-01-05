@@ -231,7 +231,7 @@ const Tris = () => {
                 
 
             </MainContainer>
-            <Toaster />
+            <Toaster position="bottom-center" richColors />
             <Fab
                 color="primary"
                 variant="extended"
