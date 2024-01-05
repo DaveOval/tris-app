@@ -1,4 +1,4 @@
-import TextField from "@mui/material/TextField";
+/* import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import React from "react";
 import { FormControlLabel, FormGroup, Slider, Switch } from "@mui/material";
@@ -11,7 +11,7 @@ const emotions = [
     "surprise",
     "fear",
     "normal",
-]
+] */
 
 
 const Tris = () => {
