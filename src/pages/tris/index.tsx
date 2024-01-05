@@ -16,12 +16,12 @@ const emotions = [
 
 const Tris = () => {
 
-    const [value, setValue] = React.useState<string | null>(emotions[0]);
-    const [inputValue, setInputValue] = React.useState('');
+    /* const [value, setValue] = React.useState<string | null>(emotions[0]);
+    const [inputValue, setInputValue] = React.useState(''); */
 
     return (
         <div>
-            <h1>Tris Dashboard</h1>
+            {/* <h1>Tris Dashboard</h1>
             <Autocomplete
                 value={value}
                 onChange={(event: any, newValue: string | null) => {
@@ -57,7 +57,7 @@ const Tris = () => {
 
             <FormGroup>
                 <FormControlLabel control={<Switch defaultChecked />} label="Social interactions" />
-            </FormGroup>
+            </FormGroup> */}
 
         </div>
     )
