@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select, SelectChangeEvent, Slider, Switch } from "@mui/material";
 import styled from "styled-components";
 import { createClient } from "@supabase/supabase-js";
-
+import { Toaster, toast } from 'sonner';
 
 const supabaseUrl = 'https://socymnmsxufzaxelvogi.supabase.co';
 const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvY3ltbm1zeHVmemF4ZWx2b2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDQzMjg0NTUsImV4cCI6MjAxOTkwNDQ1NX0.S6d-eoA7c09ZcNzgLFJbgMPplu44fmSp5OmKcBUbPok";
@@ -51,7 +51,6 @@ const CustomFormGroup = styled(FormGroup)`
 
 
 const Tris = () => {
-
  
     const [ emotion, setEmotion ] = useState("");
     const [ recomendation, setRecomendation ] = useState("");
@@ -81,6 +80,23 @@ const Tris = () => {
 
     const sendStatus  = async ()  => {
         console.log("Enviando informacion")
+        if ( emotion === "" ) {
+            toast.error("Please select an emotion");
+            return;
+        }
+        if ( recomendation === "" ) {
+            toast.error("Please add a recomendation");
+            return;
+        }
+        if ( message === "" ) {
+            toast.error("Please add a message");
+            return;
+        }
+        if ( activity === "" ) {
+            toast.error("Please select an activity");
+            return;
+        }
+        
         try {
             const { data , error } = await supabase 
                 .from("status")
@@ -92,6 +108,8 @@ const Tris = () => {
                 throw new Error(`Error inserting status: ${error.message}`);
             }
             console.log("Status inserted successfully:", data);
+            
+            toast.success("Status inserted successfully");
         } catch ( error ) {
             console.error("Error ", error)
         }
@@ -210,6 +228,7 @@ const Tris = () => {
                 
 
             </MainContainer>
+            <Toaster />
         </FormContainer>
     )
 
