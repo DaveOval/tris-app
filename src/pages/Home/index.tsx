@@ -49,9 +49,9 @@ const Btn = styled(Link)`
 export const Home = () => {
     return (
         <HomeContainer>
-            <h1>Bienvenido a TrisMood</h1>
+            <h1>Welcome to TrisMood</h1>
             <TrisImg src="./tris_status/normal.svg" />
-            <Btn to="/status" >Continuar</Btn>
+            <Btn to="/status" >Continue</Btn>
         </HomeContainer>
     )
 }

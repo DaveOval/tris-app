@@ -4,6 +4,7 @@ import moment from 'moment';
 /* import { useEffect, useState } from "react"; */
 import styled from "styled-components"
 import { createClient } from '@supabase/supabase-js';
+import { Tooltip } from "@mui/material";
 
 
 
@@ -69,11 +70,10 @@ const ImgContainer = styled.div`
     }
 `;
 const Body = styled.div`
-    width: 100%;
+    width: 90%;
     max-width: 500px;
     margin: 0 auto;
     margin-top: 7rem;
-    padding: 0 1rem;
     h2 {
         font-size: 1.5rem;
         font-weight: 600;
@@ -95,10 +95,10 @@ const Body = styled.div`
         }
     }
 `;
-const LastUpdate = styled.p`
-    width: 100%;
+const LastUpdate = styled.div`
+    width: 95%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
     text-align: right;
@@ -129,6 +129,12 @@ const StatusSubtitle = styled.p`
     font-size: 1.0rem;
     font-weight: 600 !important;
     color: #1d1d1f94 !important;
+`;
+
+const StatusBattery = styled.img `
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.5rem;
 `;
 
 
@@ -166,6 +172,7 @@ const Status = () => {
     const [ recomendation, setRecomendation ] = useState<string>("loaging...");
     const [ img, setImg ] = useState<string>("normal");
     const [status, setStatus] = useState<string>("loaging...");
+    const [battery, setBattery] = useState<number>(100);
 
     async function fetChData() {
         try {
@@ -180,6 +187,7 @@ const Status = () => {
                     setRecomendation(status[0]?.recomendation || "loading...");
                     setImg(status[0]?.status || "normal");
                     setStatus(status[0]?.status || "loading...");
+                    setBattery(status[0]?.battery || 100);
                 } else {
                     // Handle the case where status is an empty array
                     console.warn("Status array is empty");
@@ -207,7 +215,12 @@ const Status = () => {
 
             <Body>
                 <h2>Explore Tris's emotional journey at different moments.</h2>
-                <LastUpdate>last updated: { moment(createdAt).startOf("hour").fromNow() }</LastUpdate>
+                <LastUpdate>
+                    <Tooltip title={`Social Battery ${battery}%`}>
+                        <StatusBattery src={`./battery/battery-${battery}.svg`} />
+                    </Tooltip>
+                    <p>Last updated: { moment(createdAt).startOf("hour").fromNow() }</p>
+                </LastUpdate>
                 <StatusDiv >
                     <StatusTitle>How is Tris feeling today?</StatusTitle>
                     <StatusSubtitle>{status}</StatusSubtitle>
