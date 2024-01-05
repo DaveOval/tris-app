@@ -4,7 +4,7 @@ import moment from 'moment';
 /* import { useEffect, useState } from "react"; */
 import styled from "styled-components"
 import { createClient } from '@supabase/supabase-js';
-import { Tooltip } from "@mui/material";
+import { Fab, Tooltip } from "@mui/material";
 
 
 
@@ -184,7 +184,6 @@ const Status = () => {
             if ( error ) {
                 console.error("Error fetching data: ", error )
             } else {
-                console.log("Fetched data: ", status);
                 if (status && status.length > 0) {
                     setCreatedAt(status[0]?.created_at || "loading...");
                     setLastActivity(status[0]?.last_activity || "loading...");
@@ -193,7 +192,6 @@ const Status = () => {
                     setStatus(status[0]?.status || "loading...");
                     setBattery(status[0]?.battery || 100);
                 } else {
-                    // Handle the case where status is an empty array
                     console.warn("Status array is empty");
                 }
             }
@@ -204,6 +202,10 @@ const Status = () => {
     useEffect(() => {
         fetChData();
     }, []);
+
+    const NavigationToSetStatus = () => {
+        window.location.href = "/#/tris-config";
+    }
 
     return (
         <StatusContainer>
@@ -220,10 +222,10 @@ const Status = () => {
             <Body>
                 <h2>Explore Tris's emotional journey at different moments.</h2>
                 <LastUpdate>
+                    <p>Last updated: { moment(createdAt).startOf("hour").fromNow() }</p>
                     <Tooltip title={`Social Battery ${battery}%`}>
                         <StatusBattery src={`./battery/battery-${battery}.svg`} />
                     </Tooltip>
-                    <p>Last updated: { moment(createdAt).startOf("hour").fromNow() }</p>
                 </LastUpdate>
                 <StatusDiv >
                     <StatusTitle>How is Tris feeling today?</StatusTitle>
@@ -240,6 +242,14 @@ const Status = () => {
                     <StatusSubtitle>{lastActivity}</StatusSubtitle>
                 </StatusDiv>
             </Body>
+            <Fab 
+                color="primary"
+                variant="extended" 
+                style={{position: "fixed", bottom: "1rem", right: "1rem"}} 
+                onClick={NavigationToSetStatus}
+            >
+                Set Status
+            </Fab>
         </StatusContainer>
     )
 }

@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
-import { Button, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select, SelectChangeEvent, Slider, Switch } from "@mui/material";
+import { Button, Fab, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select, SelectChangeEvent, Slider, Switch } from "@mui/material";
 import styled from "styled-components";
 import { createClient } from "@supabase/supabase-js";
 import { Toaster, toast } from 'sonner';
@@ -58,6 +58,7 @@ const Tris = () => {
     const [ battery, setBattery ] = useState(50);
     const [ activity, setActivity ] = useState("");
     const [ iteractions, setIteractions ] = useState(false);
+    const [ secretWord, setSecretWord ] = useState("");
 
     const handleEmotion = ( e: SelectChangeEvent ) => {
         setEmotion(e.target.value as string)
@@ -77,6 +78,9 @@ const Tris = () => {
     const handleInteractions = (e: any) => {
         setIteractions( e.target.checked  );
     }
+    const handleSecretWord = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+        setSecretWord( e.target.value as string )
+    }
 
     const sendStatus  = async ()  => {
         console.log("Enviando informacion")
@@ -84,16 +88,8 @@ const Tris = () => {
             toast.error("Please select an emotion");
             return;
         }
-        if ( recomendation === "" ) {
-            toast.error("Please add a recomendation");
-            return;
-        }
-        if ( message === "" ) {
-            toast.error("Please add a message");
-            return;
-        }
-        if ( activity === "" ) {
-            toast.error("Please select an activity");
+        if ( secretWord !== "lipofuscinosis neuronal" ) {
+            toast.error("Please add the secret word");
             return;
         }
         
@@ -219,6 +215,13 @@ const Tris = () => {
                     label="Social interactions" />
                 </CustomFormGroup>
 
+                <TexlFieldStyled
+                    id="secret-word"
+                    label="Secret word"
+                    value={ secretWord }
+                    onChange={ handleSecretWord }
+                />
+
                 <Button 
                     variant="contained"
                     onClick={sendStatus}
@@ -229,6 +232,14 @@ const Tris = () => {
 
             </MainContainer>
             <Toaster />
+            <Fab
+                color="primary"
+                variant="extended"
+                style={{ position: "fixed", bottom: "1rem", right: "1rem" }}
+                onClick={() => window.location.href = "/#/status"}
+            >
+                Back to status
+            </Fab>
         </FormContainer>
     )
 
