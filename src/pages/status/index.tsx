@@ -137,6 +137,25 @@ const StatusBattery = styled.img `
     margin-right: 0.5rem;
 `;
 
+const LasActivityImg = styled.div`
+    margin-top: 1rem;
+    width: 15rem;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+`;
+
+const CircleStaus = styled.div`
+    position: absolute;
+    bottom: 20px;
+    left: 26px;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background-color: #0070e2;
+`;
+
 
 // tris status
 // angry
@@ -171,8 +190,9 @@ const Status = () => {
     const [ lastActivity, setLastActivity ] = useState<string>("loaging...");
     const [ recomendation, setRecomendation ] = useState<string>("loaging...");
     const [ img, setImg ] = useState<string>("normal");
-    const [status, setStatus] = useState<string>("loaging...");
-    const [battery, setBattery] = useState<number>(100);
+    const [ status, setStatus] = useState<string>("");
+    const [ battery, setBattery] = useState<number>(100);
+    const [ iteractions, setIteractions ] = useState(false)
 
     async function fetChData() {
         try {
@@ -191,6 +211,8 @@ const Status = () => {
                     setImg(status[0]?.status || "normal");
                     setStatus(status[0]?.status || "loading...");
                     setBattery(status[0]?.battery || 100);
+                    setIteractions(status[0]?.iteractions || false);
+                    console.log(status)
                 } else {
                     console.warn("Status array is empty");
                 }
@@ -216,6 +238,7 @@ const Status = () => {
                         src={`./tris_status/${img}.svg`} 
                         alt="normal" 
                     />
+                    <CircleStaus style={{ backgroundColor: iteractions ? "green" : "red" }} ></CircleStaus>
                 </ImgContainer> 
             </Header>
 
@@ -239,7 +262,19 @@ const Status = () => {
 
                 <StatusDiv >
                     <StatusTitle>Last actity</StatusTitle>
-                    <StatusSubtitle>{lastActivity}</StatusSubtitle>
+                    {
+                        lastActivity === "" ? (
+                            <img src="./activities/space.gif" />
+                        ) : (
+                            <>
+                                <StatusSubtitle>{lastActivity}</StatusSubtitle>
+                                <LasActivityImg>
+                                    <img src={`./activities/${lastActivity}.svg`} alt={lastActivity} />
+                                </LasActivityImg>
+                            </>
+                        )
+                    }
+                    
                 </StatusDiv>
             </Body>
             <Fab 

@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Fab, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select, SelectChangeEvent, Slider, Switch } from "@mui/material";
 import styled from "styled-components";
 import { createClient } from "@supabase/supabase-js";
@@ -81,6 +81,31 @@ const Tris = () => {
     const handleSecretWord = ( e: React.ChangeEvent<HTMLInputElement> ) => {
         setSecretWord( e.target.value as string )
     }
+
+    const fetchStatus = async () => {
+        try {
+            let { data: status, error } = await supabase
+                .from("status")
+                .select("*")
+                .order("created_at", { ascending: false })
+                .limit(1)
+            if( error ) {
+                console.error("Error deatching data: " , error)
+            } else {
+                if( status && status.length > 0 ) {
+                    setEmotion(status[0]?.status || "loading...")
+                    setBattery(status[0]?.battery || "loading...")
+                    setActivity(status[0]?.last_activity || "loading...")
+                    setIteractions(status[0]?.iteractions || false )
+                }
+            }
+        } catch ( error ) {
+            console.error("Error featching data " , error)
+        }
+    }
+    useEffect(() => {
+        fetchStatus();
+    }, []);
 
     const sendStatus  = async ()  => {
         console.log("Enviando informacion")
@@ -202,6 +227,7 @@ const Tris = () => {
                         <MenuItem value="watch-the-sunset">Watch the sunset</MenuItem>
                         <MenuItem value="try-a-new-restaurant">Try a new restaurant</MenuItem>
                         <MenuItem value="have-a-picnic">Have a picnic</MenuItem>
+                        <MenuItem value="visit-an-aquarium">Visit an aquarium</MenuItem>
 
                     </Select>
                 </FormControlStyled>
