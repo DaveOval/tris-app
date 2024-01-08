@@ -134,7 +134,7 @@ const StatusSubtitle = styled.p`
 const StatusBattery = styled.img `
     width: 2rem;
     height: 2rem;
-    margin-right: 0.5rem;
+    margin-right: 0.2rem;
 `;
 
 const LasActivityImg = styled.div`
@@ -154,6 +154,22 @@ const CircleStaus = styled.div`
     height: 1.5rem;
     border-radius: 50%;
     background-color: #0070e2;
+`;
+const LastUpdateLetter = styled.p `
+    font-size: 1.0rem;
+    font-weight: 600;
+    color: #1d1d1f94 !important;
+`;
+const BatteryContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0 !important;
+    span {
+        font-size: 1.0rem;
+        font-weight: 600;
+        color: #1d1d1f94 !important;
+    }
 `;
 
 
@@ -245,10 +261,16 @@ const Status = () => {
             <Body>
                 <h2>Explore Tris's emotional journey at different moments.</h2>
                 <LastUpdate>
-                    <p>Last updated: { moment(createdAt).startOf("hour").fromNow() }</p>
-                    <Tooltip title={`Social Battery ${battery}%`}>
-                        <StatusBattery src={`./battery/battery-${battery}.svg`} />
-                    </Tooltip>
+                    <LastUpdateLetter>Last updated: { moment(createdAt).startOf("hour").fromNow() } </LastUpdateLetter>
+
+                    <BatteryContainer>
+                        <Tooltip title={`Social Battery ${battery}%`}>
+                                <StatusBattery src={`./battery/battery-${battery}.svg`} />
+                        </Tooltip>
+                        <span>{battery}%</span>
+                    </BatteryContainer>
+                    
+                    
                 </LastUpdate>
                 <StatusDiv >
                     <StatusTitle>How is Tris feeling today?</StatusTitle>
