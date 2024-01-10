@@ -6,20 +6,9 @@ import styled from "styled-components"
 import { createClient } from '@supabase/supabase-js';
 import { Fab, Tooltip } from "@mui/material";
 
-
-
 const supabaseUrl = 'https://socymnmsxufzaxelvogi.supabase.co';
 const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvY3ltbm1zeHVmemF4ZWx2b2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDQzMjg0NTUsImV4cCI6MjAxOTkwNDQ1NX0.S6d-eoA7c09ZcNzgLFJbgMPplu44fmSp5OmKcBUbPok";
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-/* type StatusItem = {
-    created_at: string;
-    status: string;
-    id: number;
-    message: string | null;
-    recomendation: string | null;
-    last_activity: string | null;
-} */
 
 type Colors = {
     [key: string]: string;
@@ -207,7 +196,7 @@ const NasaTitle = styled.div`
     }
 `;
 
-const NasaDescription = styled.p`
+const NasaDescription = styled.div`
     font-size: 1.0rem;
     font-weight: 600;
     color: #c5c5d793 !important;
@@ -234,18 +223,6 @@ const NasaDescription = styled.p`
 `;
 
 
-
-// tris status
-// angry
-// descau
-// fear
-// happy
-// normal
-// sad
-// surprise
-
-
-
 const emotionalColors: Colors = {
     happy: "#FFFF00", 
     sad: "#0000FF", 
@@ -257,13 +234,6 @@ const emotionalColors: Colors = {
 };
 
 const Status = () => {
-
-    /* async function fetChData() {
-        let { data: status, error } = await supabase.from('status').select('*')
-        console.log(status)
-    } */
-
-    
     const [ createdAt, setCreatedAt ] = useState<string>("loaging...");
     const [ lastActivity, setLastActivity ] = useState<string>("loaging...");
     const [ recomendation, setRecomendation ] = useState<string>("loaging...");
@@ -315,13 +285,11 @@ const Status = () => {
             setNasaImg(data.url);
             setNasaImgTitle(data.title);
             setNasaImgExplanation(data.explanation);
-            console.log(data.url)
         } catch (error) {
             console.error("Error fetching data: ", error );
         }
     }
     const showNasaDescription = () => {
-        console.log("showNasaDescription")
         const nasaDescription = document.querySelector("#description") as HTMLElement;
         if (nasaDescription) {
             nasaDescription.style.visibility = "visible";
