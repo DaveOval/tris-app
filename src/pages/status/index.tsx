@@ -187,7 +187,7 @@ const NasaContainer = styled.footer`
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #000000d9;
-    
+    cursor: pointer;
 `
 const NasaTitle = styled.div`
     display: flex;
@@ -219,6 +219,7 @@ const NasaDescription = styled.p`
     justify-self: flex-end;
     background-color: #000000d9;
     padding: 1rem;
+    visibility: hidden;
     a {
         font-size: 1.6rem;
         margin-bottom: 1rem;
@@ -319,6 +320,16 @@ const Status = () => {
             console.error("Error fetching data: ", error );
         }
     }
+    const showNasaDescription = () => {
+        console.log("showNasaDescription")
+        const nasaDescription = document.querySelector("#description") as HTMLElement;
+        if (nasaDescription) {
+            nasaDescription.style.visibility = "visible";
+        } else {
+            console.error("nasaDescription is null");
+        }
+    }
+
     useEffect(() => {
         fetChData();
         fetchNasaImg();
@@ -385,13 +396,16 @@ const Status = () => {
             </Body>
 
 
-            <NasaContainer style={{ backgroundImage: `url(${nasaImg})` }}>
+            <NasaContainer 
+                style={{ backgroundImage: `url(${nasaImg})` }}
+                onClick={showNasaDescription}
+            >
                     <NasaTitle> 
                         <p>Nasa  Astronomy Picture of the Day</p>
                         <img src="./nasa.svg" /> 
                         
                     </NasaTitle>
-                    <NasaDescription>
+                    <NasaDescription id="description">
                         <a href={nasaImg} target="blank">{nasaImgTitle}</a>
                         <p>{ nasaImgExplanation }</p>
                     </NasaDescription>
