@@ -42,6 +42,9 @@ const getRandomImage = () => {
 const StatusContainer = styled.main`
     height: 100vh;
     width: 100vw;
+    min-height: 100vh;
+    overflow: hidden;
+    overflow-y: scroll;
 `;
 const Header = styled.header`
     width: 100%;
@@ -74,6 +77,7 @@ const Body = styled.div`
     max-width: 500px;
     margin: 0 auto;
     margin-top: 7rem;
+    padding-bottom: 2rem;
     h2 {
         font-size: 1.5rem;
         font-weight: 600;
@@ -172,6 +176,63 @@ const BatteryContainer = styled.div`
     }
 `;
 
+const NasaContainer = styled.footer`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    height: 900px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #000000d9;
+    
+`
+const NasaTitle = styled.div`
+    display: flex;
+    align-items: center;
+    padding-top: 1rem;
+    font-size: 1.0rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #ceced993 !important;
+    width: 95%;
+    text-align: left;
+    justify-content: space-between;
+    img {
+        width: 4rem;
+        height: 4rem;
+    }
+`;
+
+const NasaDescription = styled.p`
+    font-size: 1.0rem;
+    font-weight: 600;
+    color: #c5c5d793 !important;
+    width: 95%;
+    text-align: justify;
+    word-wrap: balance;
+    line-height: 1.5rem;
+    margin-bottom: 1rem;
+    justify-self: flex-end;
+    background-color: #000000d9;
+    padding: 1rem;
+    a {
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        color: #ceced993 !important;
+        margin-bottom: 1rem;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+`;
+
+
 
 // tris status
 // angry
@@ -210,6 +271,10 @@ const Status = () => {
     const [ battery, setBattery] = useState<number>(100);
     const [ iteractions, setIteractions ] = useState(false)
 
+    const [ nasaImg, setNasaImg ] = useState<string>("");
+    const [ nasaImgTitle, setNasaImgTitle ] = useState<string>("");
+    const [ nasaImgExplanation, setNasaImgExplanation ] = useState<string>("");
+
     async function fetChData() {
         try {
             let { data: status , error } = await supabase
@@ -228,7 +293,7 @@ const Status = () => {
                     setStatus(status[0]?.status || "loading...");
                     setBattery(status[0]?.battery || 100);
                     setIteractions(status[0]?.iteractions || false);
-                    console.log(status)
+                    /* console.log(status) */
                 } else {
                     console.warn("Status array is empty");
                 }
@@ -237,8 +302,26 @@ const Status = () => {
             console.error("Error fetching data: ", error );
         }
     }
+    const fetchNasaImg = async () => {
+        try {
+            const response = await fetch(
+                `https://api.nasa.gov/planetary/apod?api_key=GxctSSYywImYmG4CM1qaa9cp9MuyL6rj93yvdSMq`
+            );
+            if(!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setNasaImg(data.url);
+            setNasaImgTitle(data.title);
+            setNasaImgExplanation(data.explanation);
+            console.log(data.url)
+        } catch (error) {
+            console.error("Error fetching data: ", error );
+        }
+    }
     useEffect(() => {
         fetChData();
+        fetchNasaImg();
     }, []);
 
     const NavigationToSetStatus = () => {
@@ -298,15 +381,32 @@ const Status = () => {
                     }
                     
                 </StatusDiv>
+
             </Body>
+
+
+            <NasaContainer style={{ backgroundImage: `url(${nasaImg})` }}>
+                    <NasaTitle> 
+                        <p>Nasa  Astronomy Picture of the Day</p>
+                        <img src="./nasa.svg" /> 
+                        
+                    </NasaTitle>
+                    <NasaDescription>
+                        <a href={nasaImg} target="blank">{nasaImgTitle}</a>
+                        <p>{ nasaImgExplanation }</p>
+                    </NasaDescription>
+            </NasaContainer>
+
+
             <Fab 
                 color="primary"
                 variant="extended" 
-                style={{position: "fixed", bottom: "1rem", right: "1rem"}} 
+                style={{position: "fixed", top: "1rem", right: "1rem"}} 
                 onClick={NavigationToSetStatus}
             >
                 Set Status
             </Fab>
+                
         </StatusContainer>
     )
 }
